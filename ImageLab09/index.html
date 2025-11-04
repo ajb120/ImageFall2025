@@ -2,17 +2,80 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"> </script>
-     <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
   </head>
   <body>
-    <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0.1 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <!-- <a-sky color="#ECECEC"></a-sky> -->
-      <!-- the enviroment entity includes a sky. Choose from the presets"none, default, contact, egypt, checkerboard, forest, goaland, yavapai, goldmine, threetowers, poison, arches, tron, japan, dream, volcano, starry, osiris, moon" -->
-      <a-entity environment="preset: forest; dressingAmount: 500"></a-entity>
+    <!-- bright snowy scene -->
+    <a-scene fog="type: exponential; color: #ffffff; density: 0.01">
+      <!-- environment set to a snow preset and white sky/ground -->
+      <a-entity environment="preset: snow; dressingAmount: 80; groundColor: #ffffff; skyColor: #ffffff"></a-entity>
+
+      <!-- explicit white sky to ensure a bright background -->
+      <a-sky color="#ffffff"></a-sky>
+
+      <!-- bright neutral lighting for a snowy look -->
+      <a-entity light="type: ambient; color: #ffffff; intensity: 1"></a-entity>
+      <a-entity light="type: directional; color: #ffffff; intensity: 0.8" position="0 10 5"></a-entity>
+
+      <!-- Snowman group positioned at z = -5 -->
+      <a-entity id="snowman" position="0 0 -5">
+
+        <!-- Bottom (largest) -->
+        <a-sphere id="base" position="0 1.5 0" radius="1.5" color="#ffffff" shadow="receive: true"></a-sphere>
+
+        <!-- Middle -->
+        <a-sphere id="torso" position="0 3.1 0" radius="1.1" color="#ffffff" shadow="receive: true"></a-sphere>
+
+        <!-- Head -->
+        <a-sphere id="head" position="0 4.4 0" radius="0.8" color="#ffffff" shadow="receive: true"></a-sphere>
+
+        <!-- Eyes -->
+        <a-sphere position="-0.22 4.55 0.65" radius="0.12" color="#000000"></a-sphere>
+        <a-sphere position="0.22 4.55 0.65" radius="0.12" color="#000000"></a-sphere>
+
+        <!-- Rosy cheeks -->
+        <a-sphere position="-0.42 4.45 0.62" radius="0.08" color="#ffb6c1" opacity="0.9"></a-sphere>
+        <a-sphere position="0.42 4.45 0.62" radius="0.08" color="#ffb6c1" opacity="0.9"></a-sphere>
+
+        <!-- Carrot nose -->
+        <a-cone position="0 4.45 0.95" radius-bottom="0.01" radius-top="0.08" height="0.45" color="#ff7f00" rotation="-90 0 0"></a-cone>
+
+        <!-- Smiling mouth -->
+        <a-sphere position="-0.35 4.25 0.7" radius="0.05" color="#111"></a-sphere>
+        <a-sphere position="-0.18 4.22 0.72" radius="0.05" color="#111"></a-sphere>
+        <a-sphere position="0 4.20 0.73" radius="0.05" color="#111"></a-sphere>
+        <a-sphere position="0.18 4.22 0.72" radius="0.05" color="#111"></a-sphere>
+        <a-sphere position="0.35 4.25 0.7" radius="0.05" color="#111"></a-sphere>
+
+        <!-- Buttons on torso -->
+        <a-sphere position="0 3.6 0.9" radius="0.1" color="#000000"></a-sphere>
+        <a-sphere position="0 3.15 0.6" radius="0.1" color="#000000"></a-sphere>
+        <a-sphere position="0 2.7 0.96" radius="0.1" color="#000000"></a-sphere>
+
+        <!-- Buttons on base -->
+        <a-sphere position="0 1.8 1.05" radius="0.1" color="#000000"></a-sphere>
+        <a-sphere position="0 1.3 1.05" radius="0.1" color="#000000"></a-sphere>
+
+        <!-- Arms -->
+        <a-cylinder position="-1.6 3.7 0" radius="0.05" height="2.0" color="#6b4b2a" rotation="0 0 40"></a-cylinder>
+        <a-cylinder position="1.6 3.7 0" radius="0.05" height="2.0" color="#6b4b2a" rotation="0 0 -40"></a-cylinder>
+
+        <!-- Scarf -->
+        <a-torus position="0 4.05 0.55" radius="0.55" radius-tubular="0.1" rotation="90 0 0" color="#cc0033"></a-torus>
+        <a-box position="-0.35 3.5 0.65" depth="0.9" height="0.6" width="0.4" color="#cc0033" rotation="0 0 15"></a-box>
+
+        <!-- Hat -->
+        <a-cylinder position="0 5.05 0" radius="0.45" height="0.08" color="#111"></a-cylinder>
+        <a-box position="0 5.4 0" depth="0.7" height="0.9" width="0.7" color="#111"></a-box>
+
+      </a-entity>
+
+      <!-- Bright snowy ground plane -->
+      <a-plane rotation="-90 0 0" width="50" height="50" color="#ffffff" position="0 0 0" shadow="receive: true"></a-plane>
+
+      <!-- Camera -->
+      <a-entity camera look-controls position="0 2 2"></a-entity>
     </a-scene>
   </body>
 </html>
+// ...existing code...
