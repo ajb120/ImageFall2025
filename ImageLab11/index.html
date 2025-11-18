@@ -1,15 +1,79 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"> </script>
+    <meta charset="utf-8" />
+    <title>Snowy Scene</title>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <style>body { margin: 0; }</style>
+    <script>
+      AFRAME.registerComponent('snow', {
+        schema: { count: { type: 'int', default: 300 } },
+        init: function () {
+          const el = this.el;
+          const count = this.data.count;
+          this.particles = [];
+          for (let i = 0; i < count; i++) {
+            const p = document.createElement('a-sphere');
+            p.setAttribute('radius', 0.03 + Math.random() * 0.04);
+            p.setAttribute('color', '#ffffff');
+            p.setAttribute('material', 'transparent:true; opacity:0.95; roughness:1; metalness:0');
+            const x = (Math.random() - 0.5) * 24;
+            const y = Math.random() * 12 + 2;
+            const z = (Math.random() - 0.5) * 24 - 6;
+            p.setAttribute('position', `${x} ${y} ${z}`);
+            el.appendChild(p);
+            this.particles.push({
+              el: p,
+              vx: (Math.random() - 0.5) * 0.02, // gentle horizontal drift
+              vy: -(0.02 + Math.random() * 0.06) // downward speed
+            });
+          }
+        },
+        tick: function (time, delta) {
+          const dt = delta / 16.666; // normalize to ~60fps steps
+          for (let i = 0; i < this.particles.length; i++) {
+            const p = this.particles[i];
+            const obj = p.el.object3D.position;
+            obj.x += p.vx * dt;
+            obj.y += p.vy * dt;
+            // slight sway/z movement for depth
+            obj.z += Math.sin((time + i * 100) / 2000) * 0.0005 * dt;
+            if (obj.y < 0.1) {
+              obj.y = Math.random() * 10 + 6;
+              obj.x = (Math.random() - 0.5) * 24;
+              obj.z = (Math.random() - 0.5) * 24 - 6;
+            }
+          }
+        }
+      });
+    </script>
   </head>
+
   <body>
-    <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
+   <a-scene  fog="type: exponential; color: #ffffff; density: 0.0001">
+      
+      <!-- Assets -->
+      <a-assets>
+        <img id="sky" src="assets/snowimage.jpg" alt="">
+        <a-asset-item id="igloo" src="assets/Igloo.obj"></a-asset-item>
+        <a-asset-item id="bear" src="assets/polarbear.obj"></a-asset-item>
+      </a-assets>
+      
+      <!-- Sky -->
+      <a-sky src="#sky"></a-sky>
+
+      <!-- Igloo Model -->
+      <a-obj-model src="#igloo" position="0 0 -10" scale="0.5 0.5 0.5" color="#ffffff" ></a-obj-model>
+
+      <!-- Bear -->
+      <a-obj-model src="#bear" position="0 0 -10" scale="0.01 0.01 0.01" rotation="270 0 0" ></a-obj-model>
+
+      <!-- Snow -->
+      <a-entity snow="count: 400"></a-entity>
+
+      <!-- add plane and snow texture on top of it. then i can put bear
+       and igloo on the ground. expand snowfall area as well. -->
+
     </a-scene>
   </body>
 </html>
