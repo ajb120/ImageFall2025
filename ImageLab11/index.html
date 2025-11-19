@@ -58,6 +58,7 @@
         <img id="snow" src="assets/snowtexture2.jpg" alt="">
         <a-asset-item id="igloo" src="assets/Igloo.obj"></a-asset-item>
         <a-asset-item id="bear" src="assets/polarbear.obj"></a-asset-item>
+        <a-asset-item id="mobile" src="assets/snowmobile.obj"></a-asset-item>
       </a-assets>
       
       <!-- Sky -->
@@ -69,11 +70,14 @@
       <!-- Bear -->
       <a-obj-model src="#bear" position="5 0.5 -15" scale="0.02 0.02 0.02" rotation="270 0 270" ></a-obj-model>
 
+      <!-- Snow Mobile -->
+      <a-obj-model src="#mobile" position="-20 0.5 -25" scale="0.01 0.01 0.01" rotation="-90 160 0" color="#82eefd"></a-obj-model>
+
       <!-- Snow -->
       <a-entity snow="count: 400"></a-entity>
 
       <!-- Plane -->
-      <a-plane rotation="270 0 0" width="10000" height="10000" position="0 0 -12" src="#snow"></a-plane>
+      <a-plane rotation="270 0 0" position="0 -12 0"width="10000" height="10000" src="#snow" repeat="100 100"></a-plane>
 
       <!-- Camera -->
       <a-entity camera position="0 5 0" look-controls></a-entity>
